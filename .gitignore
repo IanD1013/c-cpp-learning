@@ -1,8 +1,69 @@
-# CLion project files
-.idea
-cmake-build-*
-
+# ---- IDE / editor ----
+# JetBrains (CLion, etc.)
+.idea/
+*.iml
+*.iws
+# VS Code
 .vscode/
+# Visual Studio
+.vs/
+*.user
+*.suo
+# Vim / Emacs
+*.swp
+*.swo
+*~
+\#*\#
+.\#*
 
+# ---- CMake ----
+cmake-build-*/
+build/
+out/
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+CTestTestfile.cmake
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+_deps/
+Testing/
+
+# ---- Compiled output ----
 *.exe
 *.out
+*.app
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exp
+*.gch
+*.pch
+
+# ---- Debug / build artifacts ----
+*.pdb
+*.ilk
+*.idb
+*.map
+*.d
+*.su
+*.log
+
+# ---- OS cruft ----
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+# macOS
+.DS_Store
+.AppleDouble
+# Linux
+.directory
+.Trash-*
