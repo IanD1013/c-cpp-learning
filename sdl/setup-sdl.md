@@ -54,7 +54,7 @@ executable
 ## 编译命令
 
 ```sh
-g++ -std=c++20 main.cpp -o prog -lSDL3
+g++ -std=c++20 main.cpp -o prog $(pkg-config --cflags --libs sdl3)
 ```
 
 ## pkg-config 的作用
