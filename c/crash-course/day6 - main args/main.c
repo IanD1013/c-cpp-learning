@@ -7,7 +7,7 @@
 // argv: a vector of strings, including the filename of the program
 // being run as the first argument. The last element argv[argc] is a null
 // pointer.
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
     printf("argc: %d\n", argc);
 

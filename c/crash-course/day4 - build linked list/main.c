@@ -4,7 +4,7 @@
 
 int main()
 {
-    linkedlist_t *newList = CreateLinkedList();
+    linkedlist_t* newList = CreateLinkedList();
     AppendToLinkedList(newList, 1);
     AppendToLinkedList(newList, 3);
     AppendToLinkedList(newList, 5);
