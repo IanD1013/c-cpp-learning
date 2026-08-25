@@ -2,14 +2,16 @@
 #define LINKEDLIST_H
 
 // Individual node in the chain
-typedef struct node {
-  int data;
-  struct node *next;
+typedef struct node
+{
+    int          data;
+    struct node *next;
 } node_t;
 
 // Linked list data structure, which always holds the first node, in our 'chain'
-typedef struct linkedlist {
-  node_t *head;
+typedef struct linkedlist
+{
+    node_t *head;
 } linkedlist_t;
 
 // malloc a new linked list, and then return a pointer to that linked list

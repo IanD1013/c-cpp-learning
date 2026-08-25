@@ -2,15 +2,16 @@
 
 #include "linkedlist.h"
 
-int main() {
-  linkedlist_t *newList = CreateLinkedList();
-  AppendToLinkedList(newList, 1);
-  AppendToLinkedList(newList, 3);
-  AppendToLinkedList(newList, 5);
+int main()
+{
+    linkedlist_t *newList = CreateLinkedList();
+    AppendToLinkedList(newList, 1);
+    AppendToLinkedList(newList, 3);
+    AppendToLinkedList(newList, 5);
 
-  PrintLinkedList(newList);
+    PrintLinkedList(newList);
 
-  FreeLinkedList(newList);
+    FreeLinkedList(newList);
 
-  return 0;
+    return 0;
 }
