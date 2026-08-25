@@ -12,7 +12,30 @@ int main(int argc, char *argv[])
     // Create our window
     SDL_Window *window = SDL_CreateWindow("An SDL3 Window", 640, 480, SDL_WINDOW_OPENGL);
 
-    SDL_Delay(10000);
+    // Our infinite game/application loop
+    bool running = true;
+    while (running)
+    {
+        SDL_Event event;
+        // Processing input
+        while (SDL_PollEvent(&event))
+        {
+            if (event.type == SDL_EVENT_QUIT)
+            {
+                SDL_Log("Program quit %" SDL_PRIu64, event.quit.timestamp);
+                running = false;
+            }
+            else if (event.type == SDL_EVENT_KEY_DOWN)
+            {
+                SDL_Log("Some key was pressed down");
+                if (event.key.key == SDLK_0)
+                {
+                    SDL_Log("0 was pressed");
+                }
+            }
+        }
+    }
+
     SDL_DestroyWindow(window);
     SDL_Quit();
 
