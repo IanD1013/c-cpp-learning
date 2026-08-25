@@ -1,4 +1,6 @@
-#include <iostream>
+// Application.hpp
+#pragma once
+
 #include <SDL3/SDL.h>
 
 struct Application
@@ -76,11 +78,3 @@ struct Application
         bool        mRunning { true };
         SDL_Window* mWindow;
 };
-
-int main(int argc, char* argv[])
-{
-    Application app(argc, argv);
-    app.Loop();
-
-    return 0;
-}
