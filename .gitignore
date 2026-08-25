@@ -4,7 +4,6 @@
 *.iml
 *.iws
 # VS Code
-.vscode/
 # Visual Studio
 .vs/
 *.user
@@ -67,3 +66,5 @@ $RECYCLE.BIN/
 # Linux
 .directory
 .Trash-*
+
+prog
