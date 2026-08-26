@@ -18,13 +18,13 @@ struct Application
 
         void StartUp()
         {
-            if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
+            if (!SDL_Init(SDL_INIT_VIDEO))
             {
                 SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
             }
 
             // Create our window
-            mWindow = SDL_CreateWindow("An SDL3 Window", 640, 480, SDL_WINDOW_OPENGL);
+            mWindow = SDL_CreateWindow("An SDL3 Window", 640, 480, 0);
         }
 
         void ShutDown()

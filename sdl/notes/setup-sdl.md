@@ -3,6 +3,26 @@
 
 ## 用 CMake 构建并安装 SDL3
 
+```sh
+# 1. 拉取 SDL 源码
+git clone https://github.com/libsdl-org/SDL.git
+
+# 2. 确认 cmake 可用
+cmake --version
+
+# 3. 在源码目录之外新建 build 目录，并在其中生成构建配置
+cmake ../SDL/
+
+# 4. 用 8 个并行任务编译
+make -j 8
+
+# 5. 安装到系统目录（默认 /usr/local）
+sudo make install
+```
+
+第 3 步是 out-of-source build：在空目录里执行 `cmake ../SDL/`，
+所有中间产物都留在 build 目录，源码目录保持干净。
+
 ```
 SDL/
 源码 + CMakeLists.txt
