@@ -25,6 +25,23 @@ struct Application
 
             // Create our window
             mWindow = SDL_CreateWindow("An SDL3 Window", 640, 480, 0);
+
+            // Empty pixels for now -- nothing drawn to our window
+            SDL_Surface* windowSurface = SDL_GetWindowSurface(mWindow);
+
+            // Load an art asset
+            SDL_Surface* mySurface = SDL_LoadBMP("./assets/space_invader.bmp");
+            if (mySurface == NULL)
+            {
+                SDL_Log("Could not find image");
+            }
+
+            // Copy that art asset, to the window
+            SDL_BlitSurface(mySurface, NULL, windowSurface, NULL);
+            SDL_UpdateWindowSurface(mWindow);
+
+            // Free our 'mySurface', because we've copied the pixels to our window
+            SDL_DestroySurface(mySurface);
         }
 
         void ShutDown()
