@@ -2,6 +2,75 @@
 #pragma once
 
 #include <SDL3/SDL.h>
+#include <cstdlib>
+
+struct MovingRectangle
+{
+    public:
+        MovingRectangle()
+        {
+            // Randomize the speed
+            mSpeed *= std::rand() % 10 / 1000.0f;
+            // Randomize position
+            mRectangle.x = std::rand() % 640;
+            mRectangle.y = std::rand() % 480;
+            // SDL_Log("%f, %f", mRectangle.x, mRectangle.y);
+            // Adding '10' so they are not '0' in size
+            mRectangle.w = std::rand() % 50 + 10;
+            mRectangle.h = std::rand() % 50 + 10;
+            // true or false value
+            xPositiveDirection = std::rand() % 1;
+            yPositiveDirection = std::rand() % 1;
+        }
+
+        void Update()
+        {
+            if (mRectangle.x > 640.0f - mRectangle.w)
+            {
+                xPositiveDirection = false;
+            }
+            if (mRectangle.x < 0.0f)
+            {
+                xPositiveDirection = true;
+            }
+            if (mRectangle.y > 480.0f - mRectangle.h)
+            {
+                yPositiveDirection = false;
+            }
+            if (mRectangle.y < 0.0f)
+            {
+                yPositiveDirection = true;
+            }
+
+            if (xPositiveDirection)
+            {
+                mRectangle.x += mSpeed;
+            }
+            else
+            {
+                mRectangle.x -= mSpeed;
+            }
+            if (yPositiveDirection)
+            {
+                mRectangle.y += mSpeed;
+            }
+            else
+            {
+                mRectangle.y -= mSpeed;
+            }
+        }
+
+        void Render(SDL_Renderer* renderer)
+        {
+            SDL_RenderRect(renderer, &mRectangle);
+        }
+
+    private:
+        SDL_FRect mRectangle { 20.0f, 20.0f, 50.0f, 60.f };
+        bool      xPositiveDirection;
+        bool      yPositiveDirection;
+        float     mSpeed { 1.0f };
+};
 
 struct Application
 {
@@ -81,6 +150,10 @@ struct Application
 
         void Update()
         {
+            for (int i = 0; i < 30; i++)
+            {
+                mRectangles[i].Update();
+            }
         }
 
         void Render()
@@ -89,15 +162,10 @@ struct Application
             SDL_RenderClear(mRenderer);
 
             SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-            SDL_RenderLine(mRenderer, 0.0f, 0.0f, 640.0f, 480.0f);
-
-            rectangle.x += 0.05f;
-            if (rectangle.x > 640)
+            for (int i = 0; i < 30; i++)
             {
-                rectangle.x = 0.0f;
+                mRectangles[i].Render(mRenderer);
             }
-
-            SDL_RenderRect(mRenderer, &rectangle);
 
             SDL_RenderPresent(mRenderer);
         }
@@ -114,8 +182,8 @@ struct Application
         }
 
     private:
-        bool          mRunning { true };
-        SDL_Window*   mWindow;
-        SDL_Renderer* mRenderer;
-        SDL_FRect     rectangle { 20.0f, 20.0f, 50.0f, 60.0f };
+        bool            mRunning { true };
+        SDL_Window*     mWindow;
+        SDL_Renderer*   mRenderer;
+        MovingRectangle mRectangles[30];
 };
