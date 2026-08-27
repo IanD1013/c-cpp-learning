@@ -26,12 +26,18 @@ struct Application
             // Create our window
             mWindow = SDL_CreateWindow("An SDL3 Window", 640, 480, 0);
 
+            mRenderer = SDL_CreateRenderer(mWindow, NULL);
+            if (mRenderer == nullptr)
+            {
+                SDL_Log("Error creating renderer");
+            }
+
             // Empty pixels for now -- nothing drawn to our window
             SDL_Surface* windowSurface = SDL_GetWindowSurface(mWindow);
 
             // Load an art asset
             SDL_Surface* mySurface = SDL_LoadBMP("./assets/space_invader.bmp");
-            if (mySurface == NULL)
+            if (mySurface == nullptr)
             {
                 SDL_Log("Could not find image");
             }
@@ -46,6 +52,7 @@ struct Application
 
         void ShutDown()
         {
+            SDL_DestroyRenderer(mRenderer);
             SDL_DestroyWindow(mWindow);
             SDL_Quit();
         }
@@ -78,6 +85,21 @@ struct Application
 
         void Render()
         {
+            SDL_SetRenderDrawColor(mRenderer, 0, 64, 255, SDL_ALPHA_OPAQUE);
+            SDL_RenderClear(mRenderer);
+
+            SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+            SDL_RenderLine(mRenderer, 0.0f, 0.0f, 640.0f, 480.0f);
+
+            rectangle.x += 0.05f;
+            if (rectangle.x > 640)
+            {
+                rectangle.x = 0.0f;
+            }
+
+            SDL_RenderRect(mRenderer, &rectangle);
+
+            SDL_RenderPresent(mRenderer);
         }
 
         void Loop()
@@ -92,6 +114,8 @@ struct Application
         }
 
     private:
-        bool        mRunning { true };
-        SDL_Window* mWindow;
+        bool          mRunning { true };
+        SDL_Window*   mWindow;
+        SDL_Renderer* mRenderer;
+        SDL_FRect     rectangle { 20.0f, 20.0f, 50.0f, 60.0f };
 };
