@@ -173,11 +173,27 @@ struct Application
         void Loop()
         {
             // Our infinite game/application loop
+            Uint64 lastTime, currentTime;
+
+            // Record our 'starting time'
+            lastTime             = SDL_GetTicks();
+            Uint64 framesElapsed = 0;
+
             while (mRunning)
             {
                 Input();
                 Update();
                 Render();
+                framesElapsed++;
+
+                currentTime = SDL_GetTicks();
+                if (currentTime > lastTime + 1000)
+                {
+                    SDL_Log("1 second has elapsed");
+                    SDL_Log("%li", framesElapsed);
+                    framesElapsed = 0;
+                    lastTime      = SDL_GetTicks();
+                }
             }
         }
 
