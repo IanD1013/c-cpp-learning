@@ -10,7 +10,7 @@ struct MovingRectangle
         MovingRectangle()
         {
             // Randomize the speed
-            mSpeed *= std::rand() % 10 / 1000.0f;
+            mSpeed *= std::rand() % 10 / 10.0f;
             // Randomize position
             mRectangle.x = std::rand() % 640;
             mRectangle.y = std::rand() % 480;
@@ -181,12 +181,28 @@ struct Application
 
             while (mRunning)
             {
+                Uint64 startOfFrame = SDL_GetTicks();
+                // We want, input/update/render to take 16ms
                 Input();
                 Update();
                 Render();
+                Uint64 elapsedTime = SDL_GetTicks() - startOfFrame;
+
                 framesElapsed++;
 
+                // Time keeping code - for frames elapsed
                 currentTime = SDL_GetTicks();
+
+                // Insert a 'frame cap' so that our program does not run too fast
+                if (elapsedTime < 1000 / 60)
+                {
+                    Uint64 delay = 1000 / 60 - elapsedTime;
+                    SDL_Delay(delay);
+                    // SDL_Log("elapsedTime: %li", elapsedTime);
+                    // SDL_Log("delaying by: %li", delay);
+                }
+
+                // If 1s passes, report how many frames have been executed
                 if (currentTime > lastTime + 1000)
                 {
                     SDL_Log("1 second has elapsed");
