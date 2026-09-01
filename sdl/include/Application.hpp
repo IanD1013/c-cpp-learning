@@ -23,7 +23,7 @@ struct MovingRectangle
             yPositiveDirection = std::rand() % 1;
         }
 
-        void Update()
+        void Update(float deltaTime)
         {
             if (mRectangle.x > 640.0f - mRectangle.w)
             {
@@ -44,19 +44,19 @@ struct MovingRectangle
 
             if (xPositiveDirection)
             {
-                mRectangle.x += mSpeed;
+                mRectangle.x += mSpeed * deltaTime;
             }
             else
             {
-                mRectangle.x -= mSpeed;
+                mRectangle.x -= mSpeed * deltaTime;
             }
             if (yPositiveDirection)
             {
-                mRectangle.y += mSpeed;
+                mRectangle.y += mSpeed * deltaTime;
             }
             else
             {
-                mRectangle.y -= mSpeed;
+                mRectangle.y -= mSpeed * deltaTime;
             }
         }
 
@@ -69,7 +69,7 @@ struct MovingRectangle
         SDL_FRect mRectangle { 20.0f, 20.0f, 50.0f, 60.f };
         bool      xPositiveDirection;
         bool      yPositiveDirection;
-        float     mSpeed { 1.0f };
+        float     mSpeed { 100.0f };
 };
 
 struct Application
@@ -148,11 +148,11 @@ struct Application
             }
         }
 
-        void Update()
+        void Update(float deltaTime)
         {
             for (int i = 0; i < 30; i++)
             {
-                mRectangles[i].Update();
+                mRectangles[i].Update(deltaTime);
             }
         }
 
@@ -170,7 +170,7 @@ struct Application
             SDL_RenderPresent(mRenderer);
         }
 
-        void Loop()
+        void Loop(float targetFPS)
         {
             // Our infinite game/application loop
             Uint64 lastTime, currentTime;
@@ -178,13 +178,14 @@ struct Application
             // Record our 'starting time'
             lastTime             = SDL_GetTicks();
             Uint64 framesElapsed = 0;
+            float  deltaTime     = 1.0f / targetFPS;
 
             while (mRunning)
             {
                 Uint64 startOfFrame = SDL_GetTicks();
                 // We want, input/update/render to take 16ms
                 Input();
-                Update();
+                Update(deltaTime);
                 Render();
                 Uint64 elapsedTime = SDL_GetTicks() - startOfFrame;
 
@@ -194,9 +195,9 @@ struct Application
                 currentTime = SDL_GetTicks();
 
                 // Insert a 'frame cap' so that our program does not run too fast
-                if (elapsedTime < 1000 / 60)
+                if (elapsedTime < 1000.0f / targetFPS)
                 {
-                    Uint64 delay = 1000 / 60 - elapsedTime;
+                    Uint64 delay = 1000.0f / targetFPS - elapsedTime;
                     SDL_Delay(delay);
                     // SDL_Log("elapsedTime: %li", elapsedTime);
                     // SDL_Log("delaying by: %li", delay);
@@ -207,6 +208,7 @@ struct Application
                 {
                     SDL_Log("1 second has elapsed");
                     SDL_Log("%li", framesElapsed);
+                    deltaTime     = 1.0f / framesElapsed;
                     framesElapsed = 0;
                     lastTime      = SDL_GetTicks();
                 }
